@@ -21,7 +21,6 @@ def get_files():
         files = response.json()
         return files
     else:
-        st.info("Documentos anexados vão aparecer aqui")
         return []
 
 

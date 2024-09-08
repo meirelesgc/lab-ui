@@ -13,13 +13,13 @@ from controllers.parameters import (
 from controllers.openai import get_json_openai, create_json_openai
 
 URL = "http://localhost:8000"
-INSPECT_DOCUMENT = {}
 STATUS_EMOJIS = {
     "DONE": "✅ - Concluído",
     "STANDBY": "🔍 - Aguardando revisão",
     "IN-PROCESS": "🔄 - Em processamento",
     "FAILED": "🗑️ - Erro ao processar o documento",
 }
+INSPECT_DOCUMENT = {}
 
 
 def render_files(document):
@@ -118,9 +118,9 @@ with st.sidebar:
 
         if documents:
             for document in documents:
-                with st.popover(
+                with st.expander(
                     f"{document['name'][:-4]} - Status: {STATUS_EMOJIS[document['status']]}",
-                    use_container_width=True,
+                    # use_container_width=True,
                 ):
                     render_files(document)
         else:
@@ -140,7 +140,10 @@ with st.sidebar:
         parameters = get_parameters()
         if parameters:
             for parameter in parameters:
-                with st.popover(parameter["parameter"], use_container_width=True):
+                with st.expander(
+                    parameter["parameter"],
+                    #  use_container_width=True,
+                ):
                     update_parameter(parameter)
         else:
             st.info("Nenhum parâmetro cadastrado ainda.")
@@ -167,3 +170,6 @@ if INSPECT_DOCUMENT:
         if not info:
             info = create_json_openai(INSPECT_DOCUMENT["document_id"])
         st.json(info)
+
+
+def inspect_document_parameters(): ...
