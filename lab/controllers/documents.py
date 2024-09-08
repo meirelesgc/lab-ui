@@ -10,14 +10,16 @@ def upload_file(file):
     response = requests.post(f"{URL}/file", files=files)
     if response.status_code == 201:
         st.toast("Arquivo enviado com sucesso! 💫")
+        st.rerun()
     else:
         st.toast(f"Falha no upload: {response.text} ⚙️")
 
 
 status_emojis = {
-    "STANDBY": "🕒 - Pronto para uso",
-    "IN-PROCESS": "🔄 - Processando",
-    "FAILED": "❌ - Problema com o documento",
+    "DONE": "✅",
+    "STANDBY": "🔍",
+    "IN-PROCESS": "🔄",
+    "FAILED": "❌",
 }
 
 
@@ -37,9 +39,9 @@ def delete_file(document_id):
     response = requests.delete(f"{URL}/file/{document_id}")
     if response.status_code == 200:
         st.toast("Arquivo removido com sucesso")
+        st.rerun()
     else:
         st.error("Encontramos um problema, tente novamente mais tarde")
-    st.rerun()
 
 
 def format_date(iso_date):
