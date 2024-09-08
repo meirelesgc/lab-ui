@@ -15,20 +15,10 @@ def upload_file(file):
         st.toast(f"Falha no upload: {response.text} ⚙️")
 
 
-status_emojis = {
-    "DONE": "✅",
-    "STANDBY": "🔍",
-    "IN-PROCESS": "🔄",
-    "FAILED": "❌",
-}
-
-
 def get_files():
     response = requests.get(f"{URL}/file")
     if response.status_code == 200:
         files = response.json()
-        for file in files:
-            file["status"] = status_emojis.get(file["status"], "🔍")
         return files
     else:
         st.info("Documentos anexados vão aparecer aqui")

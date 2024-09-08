@@ -7,25 +7,84 @@ from controllers.documents import (
 from controllers.parameters import (
     get_parameters,
     create_parameter,
-    update_parameter,
     delete_parameter,
+    send_update_parameter,
 )
 from controllers.openai import get_json_openai, create_json_openai
 
+URL = "http://localhost:8000"
+INSPECT_DOCUMENT = {}
+STATUS_EMOJIS = {
+    "DONE": "✅ - Concluído",
+    "STANDBY": "🔍 - Aguardando revisão",
+    "IN-PROCESS": "🔄 - Em processamento",
+    "FAILED": "🗑️ - Erro ao processar o documento",
+}
+
+
+def render_files(document):
+    global INSPECT_DOCUMENT
+
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button(
+            "📂 Inspecionar",
+            key=f'i_{document["document_id"]}',
+            use_container_width=True,
+        ):
+            INSPECT_DOCUMENT = document
+
+    with col2:
+        if st.button(
+            "🗑️ Excluir",
+            key=f'del_{document["document_id"]}',
+            use_container_width=True,
+        ):
+            delete_file(document["document_id"])
+            st.success(f"Documento {document['name'][:-4]} deletado com sucesso.")
+
+
+def update_parameter(parameter):
+    parameter["parameter"] = st.text_input(
+        "Editar",
+        value=parameter["parameter"],
+        key=f"input_{parameter['parameter_id']}",
+    )
+    st.write("Lista de sinonimos encontrados")
+
+    if not parameter["synonyms"]:
+        parameter["synonyms"] = ["Altere aqui"]
+
+    parameter["synonyms"] = st.data_editor(
+        parameter["synonyms"],
+        use_container_width=True,
+        num_rows="dynamic",
+        key=f"edit_{parameter['parameter_id']}",
+    )
+
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        if st.button(
+            "♻️ Atualizar",
+            key=f'att_{parameter["parameter_id"]}',
+            use_container_width=True,
+        ):
+            send_update_parameter(parameter)
+    with col2:
+        if st.button(
+            "🗑️ Excluir",
+            key=f'del_{parameter["parameter_id"]}',
+            use_container_width=True,
+        ):
+            delete_parameter(parameter["parameter_id"])
+            st.success("Parâmetro deletado com sucesso!")
+
+
 st.set_page_config(
-    page_title="Lab - Extraindo dados de documentos",
+    page_title="Lab - Extração de Dados de Documentos",
     page_icon="🤓",
     layout="wide",
 )
-
-URL = "http://localhost:8000"
-
-STATUS_EMOJIS = {
-    "DONE": "✅ - Concluido",
-    "STANDBY": "🔍 - Aguardando revisão",
-    "IN-PROCESS": "🔄 - Processando",
-    "FAILED": "❌ - Problema com o documento",
-}
 
 
 with st.sidebar:
@@ -42,59 +101,59 @@ with st.sidebar:
         if st.button("Enviar", key="send_file"):
             if uploaded_file:
                 upload_file(uploaded_file)
+                st.success("Arquivo enviado com sucesso!")
             else:
-                st.error("Por favor, insira um arquivo.")
+                st.error("Por favor, selecione um arquivo antes de enviar.")
 
         st.divider()
 
         st.title("Status dos Arquivos")
+        st.write("Abaixo estão os estados possíveis dos documentos:")
         for status, description in STATUS_EMOJIS.items():
             st.write(f"{description}")
 
         st.write("Arquivos Enviados")
 
-        inspect_document = {}
         documents = get_files()
 
         if documents:
             for document in documents:
-                with st.expander(f"{document['name'][:-4]} - {document['status']}"):
-                    if st.button("Inspecionar", key=f'i_{document["document_id"]}'):
-                        inspect_document = document
-                    if st.button("Deletar", key=f'del_{document["document_id"]}'):
-                        delete_file(document["document_id"])
+                with st.popover(
+                    f"{document['name'][:-4]} - Status: {STATUS_EMOJIS[document['status']]}",
+                    use_container_width=True,
+                ):
+                    render_files(document)
+        else:
+            st.info("Nenhum arquivo foi enviado ainda.")
 
     with tab2:
-        st.title("Inserir parametro")
-        parameter = st.text_input("Digite aqui o novo parametro")
-        if st.button("Enviar", key="send_parameter"):
+        st.title("Inserir Novo Parâmetro")
+        parameter = st.text_input("Digite o novo parâmetro:")
+        if st.button("Enviar Parâmetro", key="send_parameter"):
             if parameter:
                 create_parameter(parameter)
+                st.success("Parâmetro criado com sucesso!")
             else:
-                st.error("Insira um parametro")
+                st.error("Por favor, insira um valor para o parâmetro.")
 
-        st.title("Lista de parametros")
+        st.title("Lista de Parâmetros")
         parameters = get_parameters()
         if parameters:
             for parameter in parameters:
-                with st.expander(parameter["parameter"]):
-                    if update_parameter(parameter):
-                        st.toast("Parâmetro atualizado com sucesso!")
-                        st.rerun()
-                    if st.button("❌", key=f'del_{parameter['parameter_id']}'):
-                        delete_parameter(parameter["parameter_id"])
+                with st.popover(parameter["parameter"], use_container_width=True):
+                    update_parameter(parameter)
         else:
-            st.info("Os parametros cadastrados vão aparecer aqui")
+            st.info("Nenhum parâmetro cadastrado ainda.")
 
-if inspect_document:
+if INSPECT_DOCUMENT:
     container = st.container()
     col1, col2 = container.columns([3, 2])
     with col1:
-        st.title(inspect_document["name"][:-4])
+        st.title(f"Documento: {INSPECT_DOCUMENT['name'][:-4]}")
         st.markdown(
             f"""
                 <iframe 
-                    src="{URL}/file/{inspect_document["document_id"]}" 
+                    src="{URL}/file/{INSPECT_DOCUMENT['document_id']}" 
                     width="700" 
                     height="1000" 
                     style="border: none;">
@@ -103,8 +162,8 @@ if inspect_document:
             unsafe_allow_html=True,
         )
     with col2:
-        st.title("Painel de controle")
-        info = get_json_openai(inspect_document["document_id"])
+        st.title("Painel de Controle")
+        info = get_json_openai(INSPECT_DOCUMENT["document_id"])
         if not info:
-            info = create_json_openai(inspect_document["document_id"])
+            info = create_json_openai(INSPECT_DOCUMENT["document_id"])
         st.json(info)
