@@ -10,7 +10,7 @@ from controllers.parameters import (
     delete_parameter,
     send_update_parameter,
 )
-from controllers.openai import get_json_openai, create_json_openai
+from controllers.openai import evaluate_response
 
 URL = "http://localhost:8000"
 STATUS_EMOJIS = {
@@ -19,20 +19,19 @@ STATUS_EMOJIS = {
     "IN-PROCESS": "🔄 - Em processamento",
     "FAILED": "🗑️ - Erro ao processar o documento",
 }
-INSPECT_DOCUMENT = {}
+if "INSPECT_DOCUMENT" not in st.session_state:
+    st.session_state.INSPECT_DOCUMENT = {}
 
 
 def render_files(document):
-    global INSPECT_DOCUMENT
-
     col1, col2 = st.columns([1, 1])
     with col1:
         if st.button(
-            "📂 Inspecionar",
+            "📂 Revisar",
             key=f'i_{document["document_id"]}',
             use_container_width=True,
         ):
-            INSPECT_DOCUMENT = document
+            st.session_state.INSPECT_DOCUMENT = document
 
     with col2:
         if st.button(
@@ -40,6 +39,11 @@ def render_files(document):
             key=f'del_{document["document_id"]}',
             use_container_width=True,
         ):
+            if (
+                st.session_state.INSPECT_DOCUMENT["document_id"]
+                == document["document_id"]
+            ):
+                st.session_state.INSPECT_DOCUMENT = None
             delete_file(document["document_id"])
             st.success(f"Documento {document['name'][:-4]} deletado com sucesso.")
 
@@ -120,7 +124,6 @@ with st.sidebar:
             for document in documents:
                 with st.expander(
                     f"{document['name'][:-4]} - Status: {STATUS_EMOJIS[document['status']]}",
-                    # use_container_width=True,
                 ):
                     render_files(document)
         else:
@@ -142,21 +145,20 @@ with st.sidebar:
             for parameter in parameters:
                 with st.expander(
                     parameter["parameter"],
-                    #  use_container_width=True,
                 ):
                     update_parameter(parameter)
         else:
             st.info("Nenhum parâmetro cadastrado ainda.")
 
-if INSPECT_DOCUMENT:
+if st.session_state.INSPECT_DOCUMENT:
     container = st.container()
     col1, col2 = container.columns([3, 2])
     with col1:
-        st.title(f"Documento: {INSPECT_DOCUMENT['name'][:-4]}")
+        st.title(f"Documento: {st.session_state.INSPECT_DOCUMENT['name'][:-4]}")
         st.markdown(
             f"""
                 <iframe 
-                    src="{URL}/file/{INSPECT_DOCUMENT['document_id']}" 
+                    src="{URL}/file/{st.session_state.INSPECT_DOCUMENT['document_id']}" 
                     width="700" 
                     height="1000" 
                     style="border: none;">
@@ -165,11 +167,4 @@ if INSPECT_DOCUMENT:
             unsafe_allow_html=True,
         )
     with col2:
-        st.title("Painel de Controle")
-        info = get_json_openai(INSPECT_DOCUMENT["document_id"])
-        if not info:
-            info = create_json_openai(INSPECT_DOCUMENT["document_id"])
-        st.json(info)
-
-
-def inspect_document_parameters(): ...
+        evaluate_response(st.session_state.INSPECT_DOCUMENT)
