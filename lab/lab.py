@@ -39,11 +39,14 @@ def render_files(document):
             key=f'del_{document["document_id"]}',
             use_container_width=True,
         ):
-            if (
-                st.session_state.INSPECT_DOCUMENT["document_id"]
-                == document["document_id"]
-            ):
-                st.session_state.INSPECT_DOCUMENT = None
+            try:
+                if (
+                    st.session_state.INSPECT_DOCUMENT["document_id"]
+                    == document["document_id"]
+                ):
+                    st.session_state.INSPECT_DOCUMENT = {}
+            except Exception:
+                ...
             delete_file(document["document_id"])
             st.success(f"Documento {document['name'][:-4]} deletado com sucesso.")
 
