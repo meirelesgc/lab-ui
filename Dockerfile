@@ -1,7 +1,6 @@
 FROM python:3.12-slim
 ENV POETRY_VIRTUALENVS_CREATE=false
 
-
 WORKDIR /app
 COPY . .
 
@@ -11,4 +10,4 @@ RUN poetry install --no-interaction --no-ansi
 
 EXPOSE 8501
 
-ENTRYPOINT ["poetry", "run", "streamlit", "run", "lab/lab.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["poetry", "run", "streamlit", "run", "lab/hellow-world.py", "--server.port=8501", "--server.address=0.0.0.0"]

@@ -47,7 +47,7 @@ def evaluate_response(document):
         st.toast("Extraindo dados...")
         document_json = load_single_document(document["document_id"])
 
-    if not document_json["evaluated_document_json"]:
+    if not document_json.get("evaluated_document_json"):
         document_json["evaluated_document_json"] = document_json["document_json"]
 
     st.subheader("Dados coletados pela IA")
