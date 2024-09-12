@@ -11,8 +11,9 @@ from controllers.parameters import (
     send_update_parameter,
 )
 from controllers.openai import evaluate_response
+import os
 
-URL = "http://localhost:8000"
+URL = os.getenv("URL", "http://localhost:8000")
 STATUS_EMOJIS = {
     "DONE": "✅ - Concluído",
     "STANDBY": "🔍 - Aguardando revisão",

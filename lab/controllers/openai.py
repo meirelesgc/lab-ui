@@ -1,7 +1,8 @@
 import requests
 import streamlit as st
+import os
 
-URL = "http://localhost:8000"
+URL = os.getenv("URL", "http://localhost:8000")
 
 
 def load_single_document(document_id):

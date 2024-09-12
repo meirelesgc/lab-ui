@@ -1,8 +1,9 @@
 import requests
 import streamlit as st
 from uuid import UUID
+import os
 
-URL = "http://localhost:8000"
+URL = os.getenv("URL", "http://localhost:8000")
 
 
 def get_parameters():

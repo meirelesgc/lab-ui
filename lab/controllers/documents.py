@@ -1,8 +1,9 @@
 import streamlit as st
 import requests
 from datetime import datetime
+import os
 
-URL = "http://localhost:8000"
+URL = os.getenv("URL", "http://localhost:8000")
 
 
 def upload_file(file):
