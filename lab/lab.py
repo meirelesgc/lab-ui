@@ -107,8 +107,7 @@ def update_parameter(parameter):
 
 
 st.set_page_config(
-    page_title="Lab - Extração de Dados de Documentos",
-    page_icon="🤓",
+    page_title="iaDocSaude - Extração de Dados de Documentos",
     layout="wide",
 )
 
