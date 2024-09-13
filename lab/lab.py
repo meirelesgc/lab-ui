@@ -16,13 +16,30 @@ import os
 URL = os.getenv("URL", "http://localhost:8000")
 
 STATUS_EMOJIS = {
-    "DONE": "✅ - Concluído",
+    "DONE": "✅ - Revisado",
     "STANDBY": "🔍 - Aguardando revisão",
     "IN-PROCESS": "🔄 - Em processamento",
-    "FAILED": "🗑️ - Erro ao processar o documento",
+    "FAILED": "❌ - Erro ao processar o documento",
 }
 if "INSPECT_DOCUMENT" not in st.session_state:
     st.session_state.INSPECT_DOCUMENT = {}
+
+
+@st.fragment(run_every="10s")
+def render_list_files():
+    st.write("Arquivos Enviados")
+
+    documents = get_files()
+
+    if documents:
+        for document in documents:
+            with st.expander(
+                f"[{document['document_id'][:7]}] {document['name'][:-4]} :blue[Data: {document['created_at']}]",
+                icon=STATUS_EMOJIS[document["status"]][0],
+            ):
+                render_files(document)
+    else:
+        st.info("Nenhum arquivo foi enviado ainda.")
 
 
 def render_files(document):
@@ -34,7 +51,7 @@ def render_files(document):
             use_container_width=True,
         ):
             st.session_state.INSPECT_DOCUMENT = document
-
+            st.rerun()
     with col2:
         if st.button(
             "🗑️ Excluir",
@@ -121,18 +138,7 @@ with st.sidebar:
         for status, description in STATUS_EMOJIS.items():
             st.write(f"{description}")
 
-        st.write("Arquivos Enviados")
-
-        documents = get_files()
-
-        if documents:
-            for document in documents:
-                with st.expander(
-                    f"{document['name'][:-4]} - Status: {STATUS_EMOJIS[document['status']]}",
-                ):
-                    render_files(document)
-        else:
-            st.info("Nenhum arquivo foi enviado ainda.")
+        render_list_files()
 
     with tab2:
         st.title("Inserir Novo Parâmetro")
@@ -154,6 +160,7 @@ with st.sidebar:
                     update_parameter(parameter)
         else:
             st.info("Nenhum parâmetro cadastrado ainda.")
+
 
 if st.session_state.INSPECT_DOCUMENT:
     container = st.container()

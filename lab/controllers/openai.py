@@ -59,9 +59,6 @@ def evaluate_response(document):
         column_index = index % num_columns
         columns[column_index].metric(key, value=value)
 
-    st.subheader("Qualidade dos dados coletados")
-    document_json["rating"] = st.feedback(options="stars") or 0
-
     st.subheader("Revise os dados")
     columns = st.columns(num_columns)
 
@@ -73,5 +70,13 @@ def evaluate_response(document):
                 "Atualizar valor", value=value, key=f"att_{key}"
             )
         columns[column_index].info(document_json["evaluated_document_json"][key])
+
+    document_json["rating"] = st.slider(
+        "Qualidade dos dados coletados",
+        min_value=0,
+        max_value=5,
+        value=document_json["rating"],
+    )
     if st.button("Enviar"):
         update_json_documents(document_json)
+        st.rerun()

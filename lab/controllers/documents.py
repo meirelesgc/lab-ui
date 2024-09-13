@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-from datetime import datetime
+import datetime
 import os
 
 URL = os.getenv("URL", "http://localhost:8000")
@@ -20,6 +20,11 @@ def get_files():
     response = requests.get(f"{URL}/file")
     if response.status_code == 200:
         files = response.json()
+
+        for file in files:
+            created_at = datetime.datetime.fromisoformat(file["created_at"])
+            file["created_at"] = created_at.strftime("%d/%m/%Y %H:%M")
+
         return files
     else:
         return []
