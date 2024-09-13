@@ -113,6 +113,7 @@ st.set_page_config(
 
 
 with st.sidebar:
+    st.title("iaDocSaude")
     tab1, tab2 = st.tabs(["Arquivos", "Parâmetros"])
 
     with tab1:
