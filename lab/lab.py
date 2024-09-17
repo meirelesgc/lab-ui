@@ -51,7 +51,37 @@ def render_list_files():
             f"[{recently_document['document_id'][:7]}] {recently_document['name'][:-4]} :blue[Data: {recently_document['created_at']}]",
             icon=STATUS_EMOJIS[recently_document["status"]][0],
         ):
-            render_files(recently_document)
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                if st.button(
+                    "📂 Revisar",
+                    key=f'ii_{recently_document["document_id"]}',
+                    use_container_width=True,
+                    disabled=not bool(
+                        recently_document["status"] != "FAILED"
+                        and recently_document["status"] != "IN-PROCESS"
+                    ),
+                ):
+                    st.session_state.INSPECT_DOCUMENT = recently_document
+                    st.rerun()
+            with col2:
+                if st.button(
+                    "🗑️ Excluir",
+                    key=f'dell_{recently_document["document_id"]}',
+                    use_container_width=True,
+                ):
+                    try:
+                        if (
+                            st.session_state.INSPECT_DOCUMENT["document_id"]
+                            == recently_document["document_id"]
+                        ):
+                            st.session_state.INSPECT_DOCUMENT = {}
+                    except Exception:
+                        ...
+                    delete_file(recently_document["document_id"])
+                    st.success(
+                        f"Documento {recently_document['name'][:-4]} deletado com sucesso."
+                    )
 
         st.subheader("Lista completa")
         for document in documents:
@@ -69,15 +99,18 @@ def render_files(document):
     with col1:
         if st.button(
             "📂 Revisar",
-            key=f'i_{document["document_id"]}_{uuid4()}',
+            key=f'i_{document["document_id"]}',
             use_container_width=True,
+            disabled=not bool(
+                document["status"] != "FAILED" and document["status"] != "IN-PROCESS"
+            ),
         ):
             st.session_state.INSPECT_DOCUMENT = document
             st.rerun()
     with col2:
         if st.button(
             "🗑️ Excluir",
-            key=f'del_{document["document_id"]}_{uuid4()}',
+            key=f'del_{document["document_id"]}',
             use_container_width=True,
         ):
             try:
@@ -149,18 +182,21 @@ def send_file():
             patients,
             format_func=lambda x: x["name"],
         )
+    else:
+        st.info("Adicione um paciente antes de prosseguir")
     date = st.date_input("Data do laudo", key="send_report_date")
-    if st.button("Enviar", key="send_file"):
-        if uploaded_file and date and selected_patient:
-            document = upload_file(uploaded_file)
-            att_metadata(
-                document["document_id"],
-                selected_patient["patient_id"],
-                date.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-            )
-            st.rerun()
-        else:
-            st.error("Por favor, preencha todos os campos")
+    if st.button(
+        "Enviar",
+        key="send_file",
+        disabled=not bool(uploaded_file and date and selected_patient),
+    ):
+        document = upload_file(uploaded_file)
+        att_metadata(
+            document["document_id"],
+            selected_patient.get("patient_id"),
+            date.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        )
+        st.rerun()
 
 
 with st.sidebar:
