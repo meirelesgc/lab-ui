@@ -11,9 +11,22 @@ def upload_file(file):
     response = requests.post(f"{URL}/file", files=files)
     if response.status_code == 201:
         st.toast("Arquivo enviado com sucesso! 💫")
-        st.rerun()
+        return response.json()
     else:
-        st.toast(f"Falha no upload: {response.text} ⚙️")
+        st.toast("Falha no upload")
+
+
+def att_metadata(document_id, patient_id, date):
+    metadata = {
+        "document_id": document_id,
+        "patient_id": patient_id,
+        "document_date": date,
+    }
+    response = requests.put(f"{URL}/file/metadata", json=metadata)
+    if response.status_code == 200:
+        st.toast("Dados atualziados com sucesso")
+    else:
+        st.toast("Encontramos um problema, tente novamente mais tarde")
 
 
 def get_files():
