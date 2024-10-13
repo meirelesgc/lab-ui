@@ -85,3 +85,7 @@
 .gray--color {
   color: rgb(182, 181, 181) !important;
 }
+
+.card {
+  background-image: linear-gradient(to bottom, #4c7f79, #87e8de);
+}

@@ -1,7 +1,12 @@
-import { Card, Flex, Typography } from "antd";
+import { Flex } from "antd";
 import React from "react";
+import ContentSidebar from "./ContentSidebar";
 
 const SideContent = () => {
-    return <div style={{ width: 300 }}>aba lateral</div>;
+    return (
+        <Flex vertical gap="2.3rem" style={{ width: 350 }}>
+            <ContentSidebar />
+        </Flex>
+    )
 }
 export default SideContent;
