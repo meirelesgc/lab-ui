@@ -17,11 +17,10 @@ const CustomCard = ({ title, description }) => (
 const Banner = ({ selectedItem }) => {
 
     return (
-        <Card style={{ height: 260, padding: '20px' }}>
+        <Card style={{ height: 180, padding: '20px' }}>
             <Flex vertical gap='30px'>
                 <Flex vertical align="flex-start">
                     <CustomCard title="Adicione e gerencie os documentos" description="Acompanhe aqui os diferentes estágios do processamento" />
-
                 </Flex>
             </Flex>
         </Card>
