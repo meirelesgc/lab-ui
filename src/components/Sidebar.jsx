@@ -16,11 +16,11 @@ const Sidebar = ({ setSelectedItem }) => {
 
         <Menu
             mode="vertical"
-            defaultSelectedKeys={['archive_sider_key']}
+            defaultSelectedKeys={['document_sider_key']}
             className="menu-bar"
             onClick={handleMenuClick}
             items={[
-                { key: 'archive_sider_key', icon: <FilePdfFilled />, label: 'Arquivos' },
+                { key: 'document_sider_key', icon: <FilePdfFilled />, label: 'Arquivos' },
                 { key: 'attributs_sider_key', icon: <EditOutlined />, label: 'Atributos' },
                 { key: 'patients_sider_key', icon: <UserOutlined />, label: 'Pacientes' },
             ]} />

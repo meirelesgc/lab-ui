@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Table, Button, Flex, Typography, Alert, Modal } from "antd";
 import { PlusOutlined, ClockCircleOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons'
-import useArchives from "../../hooks/useArchives";
+import useDocuments from "../../hooks/useDocument";
 
 const statusIconMap = {
     'STANDBY': <ClockCircleOutlined />,
@@ -35,22 +35,15 @@ const props = {
         console.log('Dropped files', e.dataTransfer.files);
     },
 };
-const ArchiveTable = () => {
+const DocumentTable = () => {
 
     const [open, setOpen] = useState(false);
-    const { data, error, isLoading } = useArchives();
+    const { data, error, isLoading } = useDocuments();
 
     const switchModal = () => {
         setOpen(!open);
     };
 
-    if (error) {
-        return <Alert
-            message="Erro ao carregar os dados"
-            description={error.message}
-            type="error"
-            showIcon />;
-    }
 
     return (
         <>
@@ -80,4 +73,4 @@ const ArchiveTable = () => {
     );
 }
 
-export default ArchiveTable;
+export default DocumentTable;

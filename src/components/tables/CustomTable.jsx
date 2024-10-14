@@ -1,19 +1,19 @@
 import React from "react";
-import ArchiveTable from './ArchiveTable';
+import DocumentTable from './DocumentTable';
 import AttributeTable from './AttributeTable';
 import PatientTables from './PatientTables';
 
 const CustomTable = ({ selectedItem }) => {
     const renderTableContent = () => {
         switch (selectedItem) {
-            case 'archive_sider_key':
-                return <ArchiveTable />;
+            case 'document_sider_key':
+                return <DocumentTable />;
             case 'attributs_sider_key':
                 return <AttributeTable />;
             case 'patients_sider_key':
                 return <PatientTables />;
             default:
-                return <ArchiveTable />;
+                return <DocumentTable />;
         }
     };
 
