@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Table, Button, Flex, Typography } from "antd";
+import { Table, Button, Flex, Typography, message } from "antd";
 import { PlusOutlined, ClockCircleOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, FileSearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import useDocuments from "../../hooks/useDocuments";
+import useDeleteDocument from "../../hooks/useDeleteDocument"
 import CreateDocumentModal from "../modals/CreateDocumentModal";
 
 const statusIconMap = {
@@ -14,13 +15,15 @@ const statusIconMap = {
 const DocumentTable = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading } = useDocuments();
+    const { mutate } = useDeleteDocument()
 
     const switchModal = () => {
         setOpen(!open);
     };
 
     const handleButtonClick = (record) => {
-        console.log('Botão clicado para o documento:', record);
+        mutate(record['document_id'])
+        message.success('Documento removido com sucesso!')
     };
 
     const columns = [
