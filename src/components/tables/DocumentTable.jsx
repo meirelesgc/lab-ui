@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Table, Button, Flex, Typography, Alert, Modal } from "antd";
-import { PlusOutlined, ClockCircleOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons'
-import useDocuments from "../../hooks/useDocument";
+import { Table, Button, Flex, Typography } from "antd";
+import { PlusOutlined, ClockCircleOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, FileSearchOutlined, DeleteOutlined } from '@ant-design/icons';
+import useDocuments from "../../hooks/useDocuments";
+import CreateDocumentModal from "../modals/CreateDocumentModal";
 
 const statusIconMap = {
     'STANDBY': <ClockCircleOutlined />,
@@ -10,40 +11,36 @@ const statusIconMap = {
     'DONE': <CheckCircleOutlined />,
 };
 
-const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name', render: (text) => text.slice(0, -4) },
-    { title: 'Estado', dataIndex: 'status', key: 'status', render: (status) => statusIconMap[status] || status },
-    { title: 'Código', dataIndex: 'document_id', key: "document_id" },
-    { title: 'Hora', dataIndex: 'created_at', key: 'created_at', render: (text) => new Date(text).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-];
-const props = {
-    name: 'file',
-    multiple: true,
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange(info) {
-        const { status } = info.file;
-        if (status !== 'uploading') {
-            console.log(info.file, info.fileList);
-        }
-        if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-        }
-    },
-    onDrop(e) {
-        console.log('Dropped files', e.dataTransfer.files);
-    },
-};
 const DocumentTable = () => {
-
     const [open, setOpen] = useState(false);
-    const { data, error, isLoading } = useDocuments();
+    const { data, isLoading } = useDocuments();
 
     const switchModal = () => {
         setOpen(!open);
     };
 
+    const handleButtonClick = (record) => {
+        console.log('Botão clicado para o documento:', record);
+    };
+
+    const columns = [
+        { title: '', dataIndex: 'status', key: 'status', render: (status) => statusIconMap[status], width: '5%', align: 'center' },
+        { title: 'Código', dataIndex: 'document_id', key: "document_id", width: '30%' },
+        { title: 'Nome do arquivo', dataIndex: 'name', key: 'name', render: (text) => text.slice(0, -4) },
+        { title: 'Hora', dataIndex: 'created_at', key: 'created_at', render: (text) => new Date(text).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), width: '5%', align: 'center' },
+        {
+            title: 'Opções',
+            key: 'action',
+            render: (record) => (
+                <Flex align="center" justify="flex-end" gap='middle'>
+                    <Button icon={<FileSearchOutlined />} type="primary" onClick={() => handleButtonClick(record)} />
+                    <Button icon={<DeleteOutlined />} onClick={() => handleButtonClick(record)} />
+                </Flex>
+            ),
+            width: '5%',
+            align: 'center'
+        },
+    ];
 
     return (
         <>
@@ -60,16 +57,10 @@ const DocumentTable = () => {
                 rowKey='document_id'
                 loading={isLoading}
             />
-            <Modal
-                title="Anexe os documentos abaixo"
+            <CreateDocumentModal
                 open={open}
-                onOk={switchModal}
-                onCancel={switchModal}
-            >
-
-            </Modal>
+                switchModal={switchModal} />
         </>
-
     );
 }
 
