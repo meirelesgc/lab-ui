@@ -14,7 +14,7 @@ const CustomCard = ({ title, description }) => (
 );
 
 
-const Banner = ({ selectedItem }) => {
+const Banner = ({ selectedItem, setSelectedItem }) => {
 
     return (
         <Card style={{ height: 180, padding: '20px' }}>

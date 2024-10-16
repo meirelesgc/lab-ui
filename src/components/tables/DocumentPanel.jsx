@@ -12,19 +12,23 @@ const statusIconMap = {
     'DONE': <CheckCircleOutlined />,
 };
 
-const DocumentTable = () => {
+const DocumentPanel = ({ selectedItem, setSelectedItem }) => {
     const [open, setOpen] = useState(false);
     const { data, isLoading } = useDocuments();
     const { mutate } = useDeleteDocument()
 
-    const switchModal = () => {
+    const handleSwitchModal = () => {
         setOpen(!open);
     };
 
-    const handleButtonClick = (record) => {
+    const handleDeleteButtonClick = (record) => {
         mutate(record['document_id'])
         message.success('Documento removido com sucesso!')
     };
+    const handleViewButtonClick = (record) => {
+        setSelectedItem('attributs_sider_key')
+    };
+
 
     const columns = [
         { title: '', dataIndex: 'status', key: 'status', render: (status) => statusIconMap[status], width: '5%', align: 'center' },
@@ -36,8 +40,8 @@ const DocumentTable = () => {
             key: 'action',
             render: (record) => (
                 <Flex align="center" justify="flex-end" gap='middle'>
-                    <Button icon={<FileSearchOutlined />} type="primary" onClick={() => handleButtonClick(record)} />
-                    <Button icon={<DeleteOutlined />} onClick={() => handleButtonClick(record)} />
+                    <Button icon={<FileSearchOutlined />} type="primary" disabled={record.status != 'STANDBY' || record.status != 'DONE'} onClick={() => handleViewButtonClick(record)} />
+                    <Button icon={<DeleteOutlined />} onClick={() => handleDeleteButtonClick(record)} />
                 </Flex>
             ),
             width: '5%',
@@ -54,7 +58,7 @@ const DocumentTable = () => {
                 title={() => (
                     <Flex justify="space-between" gap='middle' align="center">
                         <Typography.Title strong level={5}>Lista</Typography.Title>
-                        <Button icon={<PlusOutlined />} type="primary" shape='circle' onClick={switchModal} />
+                        <Button icon={<PlusOutlined />} type="primary" shape='circle' onClick={handleSwitchModal} />
                     </Flex>
                 )}
                 rowKey='document_id'
@@ -62,9 +66,9 @@ const DocumentTable = () => {
             />
             <CreateDocumentModal
                 open={open}
-                switchModal={switchModal} />
+                switchModal={handleSwitchModal} />
         </>
     );
 }
 
-export default DocumentTable;
+export default DocumentPanel;

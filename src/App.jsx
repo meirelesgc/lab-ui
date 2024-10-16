@@ -12,7 +12,7 @@ const { Sider, Header, Content } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('Sidebar');
+  const [selectedItem, setSelectedItem] = useState('document_sider_key');
 
   return (
     <Layout>
@@ -33,8 +33,8 @@ const App = () => {
 
         <Content className="content">
           <Flex gap='large'>
-            <MainContent selectedItem={selectedItem} />
-            <SideContent />
+            <MainContent selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+            <SideContent selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
           </Flex>
         </Content>
       </Layout>
