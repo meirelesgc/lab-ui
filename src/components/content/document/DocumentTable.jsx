@@ -34,55 +34,28 @@ const ActionButtons = ({ record, handleViewButtonClick, handleDeleteButtonClick 
 
 const getColumns = (handleViewButtonClick, handleDeleteButtonClick) => [
     {
-        title: "",
         dataIndex: "status",
         key: "status",
-        render: status => statusIconMap[status],
-        width: "5%",
-        align: "center"
     },
     {
-        title: "Código",
         dataIndex: "document_id",
         key: "document_id",
-        width: "30%"
     },
     {
-        title: "Nome do arquivo",
         dataIndex: "name",
         key: "name",
-        render: text => text.slice(0, -4)
     },
     {
-        title: "Data e Hora",
         dataIndex: "created_at",
         key: "created_at",
-        render: text => {
-            const date = new Date(text);
-            const formattedDate = date.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "numeric" });
-            const formattedTime = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-            return `${formattedDate} ${formattedTime}`;
-        },
-        width: "15%",
-        align: "center"
     }
     ,
     {
-        title: "Opções",
         key: "action",
-        render: record => (
-            <ActionButtons
-                record={record}
-                handleViewButtonClick={handleViewButtonClick}
-                handleDeleteButtonClick={handleDeleteButtonClick}
-            />
-        ),
-        width: "5%",
-        align: "center"
     }
 ];
 
-const DocumentPanel = ({ setSelectedItem }) => {
+const DocumentPanel = ({ setDocument }) => {
     const [open, setOpen] = useState(false);
     const { data, isLoading } = useDocuments();
     const { mutate } = useDeleteDocument();
@@ -97,7 +70,7 @@ const DocumentPanel = ({ setSelectedItem }) => {
     };
 
     const handleViewButtonClick = record => {
-        console.log(record);
+        setDocument(record['document_id']);
     };
 
     const columns = getColumns(handleViewButtonClick, handleDeleteButtonClick);
