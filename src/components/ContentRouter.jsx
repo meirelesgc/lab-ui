@@ -3,7 +3,7 @@ import DocumentRouter from './content/document/DocumentRouter'
 import ParametersTable from "./content/ParametersTable";
 import PatientsTable from "./content/PatientsTable";
 
-const contentRender = (selectedItem) => {
+const contentRender = ({ selectedItem }) => {
     switch (selectedItem) {
         case 'document_sider_key':
             return <DocumentRouter />;

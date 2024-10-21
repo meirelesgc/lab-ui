@@ -34,8 +34,7 @@ const App = () => {
         <Content className="content">
           <Flex gap='large'>
             <MainContent
-              selectedItem={selectedItem}
-              setSelectedItem={setSelectedItem} />
+              selectedItem={selectedItem} />
             <SideContent
               selectedItem={selectedItem} />
           </Flex>
