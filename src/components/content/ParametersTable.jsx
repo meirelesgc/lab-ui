@@ -1,32 +1,103 @@
-import React from "react";
-import { Table } from "antd";
+import React, { useState } from "react";
+import { PlusOutlined } from '@ant-design/icons';
+import { Table, Space, Typography, Input, Button, Flex } from "antd";
+
 import useParameters from "../../hooks/useParameters";
+import useCreateParameter from "../../hooks/useCreateParameter";
+import useDeleteParameter from "../../hooks/useDeleteParameter";
+
+const ActionButtons = ({ record, handleDeleteButtonClick }) => (
+    <Space justify='center'>
+        <Button type='link' onClick={() => handleDeleteButtonClick(record)}>
+            Excluir
+        </Button>
+    </Space>
+);
+
+const getColumns = (handleDeleteButtonClick) => [
+    {
+        title: 'Identificador',
+        dataIndex: 'parameter_id',
+        key: 'parameter_id',
+        width: '20%',
+        ellipsis: true,
+    },
+    {
+        title: 'Parâmetro',
+        dataIndex: 'parameter',
+        key: 'parameter',
+        width: '20%',
+    },
+    {
+        title: 'Sinônimos',
+        dataIndex: 'synonyms',
+        key: 'synonyms',
+        width: '60%',
+        render: (synonyms) => (synonyms.length > 0 ? synonyms.join(', ') : 'Nenhum sinônimo'),
+    },
+    {
+        title: "Actions",
+        key: "action",
+        render: (text, record) => (
+            <ActionButtons
+                record={record}
+                handleDeleteButtonClick={handleDeleteButtonClick}
+            />
+        ),
+        width: '15%',
+        align: 'center'
+    }
+];
 
 const ParametersTable = () => {
+    const { mutate: createParameter } = useCreateParameter();
+    const { mutate: deleteParameter } = useDeleteParameter();
     const { data, isLoading } = useParameters();
+    const [newParameter, setNewParameter] = useState("");
 
-    const columns = [
-        {
-            dataIndex: 'parameter_id',
-            key: 'parameter_id',
-        },
-        {
-            dataIndex: 'parameter',
-            key: 'parameter',
-        },
-        {
-            dataIndex: 'synonyms',
-            key: 'synonyms',
-        },
-    ];
+    const handleInputChange = (e) => {
+        setNewParameter(e.target.value);
+    };
+
+    const handleInputSubmit = (e) => {
+        e.preventDefault();
+        if (!newParameter) return;
+        createParameter(newParameter);
+        setNewParameter("");
+    };
+
+    const handleDeleteButtonClick = (record) => {
+        deleteParameter(record['parameter_id']);
+    };
+
+    const columns = getColumns(handleDeleteButtonClick);
 
     return (
         <Table
-            dataSource={data}
             columns={columns}
-            loading={isLoading}
-            rowKey="parameter_id"
+            dataSource={data}
             bordered
+            title={() => (
+                <Flex justify="space-between">
+                    <Typography.Title strong level={5}>
+                        Lista completa
+                    </Typography.Title>
+                    <Flex align="center" gap="1rem">
+                        <Input
+                            allowClear
+                            value={newParameter}
+                            onChange={handleInputChange}
+                            onPressEnter={handleInputSubmit}
+                        />
+                        <Button icon={<PlusOutlined />} type="primary" onClick={handleInputSubmit}>
+                            Enviar
+                        </Button>
+                    </Flex>
+                </Flex>
+            )}
+            rowKey="parameter_id"
+            loading={isLoading}
+            pagination={false}
         />
     );
 };

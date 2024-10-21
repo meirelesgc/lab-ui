@@ -11,12 +11,12 @@ export const fetchParameters = async () => {
     return response.data;
 };
 
-// export const createDocument = async (newDocument) => {
-//     const response = await apiClient.post('/file', newDocument, { headers: { 'Content-Type': 'multipart/form-data' } });
-//     return response.data;
-// };
+export const createParameter = async (newParameter) => {
+    const response = await apiClient.post('/parameter?parameter=' + newParameter);
+    return response.data;
+};
 
-// export const deleteDocument = async (document_id) => {
-//     const response = await apiClient.delete('/file/' + document_id);
-//     return response.data;
-// };
+export const deleteParameter = async (parameter_id) => {
+    const response = await apiClient.delete('/parameter/' + parameter_id);
+    return response.data;
+};

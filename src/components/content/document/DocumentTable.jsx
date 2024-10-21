@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Table, Button, Flex, Typography, Space, Tooltip } from "antd";
-import { PlusOutlined, ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { UploadOutlined, ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import useDocuments from "../../../hooks/useDocuments";
 import useDeleteDocument from "../../../hooks/useDeleteDocument";
 import DocumentSubmit from './DocumentSubmit';
@@ -106,11 +106,11 @@ const DocumentPanel = ({ setDocument }) => {
                 dataSource={data}
                 bordered
                 title={() => (
-                    <Flex justify="space-between" gap="middle" align="center">
+                    <Flex justify="space-between">
                         <Typography.Title strong level={5}>
-                            Complete List
+                            Lista completa
                         </Typography.Title>
-                        <Button icon={<PlusOutlined />} type="primary" shape="circle" onClick={handleSwitchModal} />
+                        <Button icon={<UploadOutlined />} type="primary" onClick={handleSwitchModal}>Enviar</Button>
                     </Flex>
                 )}
                 rowKey="document_id"
