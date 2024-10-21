@@ -1,57 +1,82 @@
 import React, { useState } from "react";
-import { Table, Button, Flex, Typography, message } from "antd";
-import {
-    PlusOutlined,
-    ClockCircleOutlined,
-    SyncOutlined,
-    CloseCircleOutlined,
-    CheckCircleOutlined,
-    FileSearchOutlined,
-    DeleteOutlined
-} from '@ant-design/icons';
+import { Table, Button, Flex, Typography, Space, Tooltip } from "antd";
+import { PlusOutlined, ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import useDocuments from "../../../hooks/useDocuments";
-import useDeleteDocument from "../../../hooks/useDeleteDocument"
-import DocumentSubmit from './DocumentSubmit'
-
-const statusIconMap = {
-    STANDBY: <ClockCircleOutlined />,
-    "IN-PROCESS": <SyncOutlined />,
-    FAILED: <CloseCircleOutlined />,
-    DONE: <CheckCircleOutlined />
-};
+import useDeleteDocument from "../../../hooks/useDeleteDocument";
+import DocumentSubmit from './DocumentSubmit';
 
 const ActionButtons = ({ record, handleViewButtonClick, handleDeleteButtonClick }) => (
-    <Flex align="center" justify="flex-end" gap="middle">
-        <Button
-            icon={<FileSearchOutlined />}
-            type="primary"
-            disabled={record.status !== "STANDBY" && record.status !== "DONE"}
-            onClick={() => handleViewButtonClick(record)}
-        />
-        <Button icon={<DeleteOutlined />} onClick={() => handleDeleteButtonClick(record)} />
-    </Flex>
+    <Space justify='center'>
+        <Button type="link" disabled={record.status !== "STANDBY" && record.status !== "DONE"} onClick={() => handleViewButtonClick(record)}>
+            Abrir
+        </Button>
+        <Button type='link' onClick={() => handleDeleteButtonClick(record)}>
+            Excluir
+        </Button>
+    </Space>
 );
+
+const statusIconMap = {
+    'STANDBY': { icon: <ClockCircleOutlined />, tooltip: "Aguardando" },
+    'IN-PROCESS': { icon: <SyncOutlined spin />, tooltip: "Em Processo" },
+    'FAILED': { icon: <ExclamationCircleOutlined />, tooltip: "Falha" },
+    'DONE': { icon: <CheckCircleOutlined />, tooltip: "Concluído" }
+};
+
+const formatDate = (dateString) => {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleDateString('pt-BR', options);
+};
 
 const getColumns = (handleViewButtonClick, handleDeleteButtonClick) => [
     {
         dataIndex: "status",
         key: "status",
+        render: (status) => {
+            const { icon, tooltip } = statusIconMap[status] || { icon: null, tooltip: "" };
+            return (
+                <Tooltip title={tooltip}>
+                    {icon}
+                </Tooltip>
+            );
+        },
+        width: '5%',
+        align: 'center'
     },
     {
         dataIndex: "document_id",
         key: "document_id",
+        title: "Identificador",
+        width: '20%',
+        ellipsis: true,
     },
     {
         dataIndex: "name",
         key: "name",
+        title: "Nome",
+        width: '35%',
+        ellipsis: true
     },
     {
         dataIndex: "created_at",
         key: "created_at",
-    }
-    ,
+        title: "Adicionado em",
+        render: (created_at) => formatDate(created_at),
+        width: '20%',
+        ellipsis: true
+    },
     {
+        title: "Actions",
         key: "action",
+        render: (text, record) => (
+            <ActionButtons
+                record={record}
+                handleViewButtonClick={handleViewButtonClick}
+                handleDeleteButtonClick={handleDeleteButtonClick}
+            />
+        ),
+        width: '15%',
+        align: 'center'
     }
 ];
 
@@ -66,7 +91,6 @@ const DocumentPanel = ({ setDocument }) => {
 
     const handleDeleteButtonClick = record => {
         mutate(record["document_id"]);
-        message.success("Documento removido com sucesso!");
     };
 
     const handleViewButtonClick = record => {
@@ -84,13 +108,14 @@ const DocumentPanel = ({ setDocument }) => {
                 title={() => (
                     <Flex justify="space-between" gap="middle" align="center">
                         <Typography.Title strong level={5}>
-                            Lista completa
+                            Complete List
                         </Typography.Title>
                         <Button icon={<PlusOutlined />} type="primary" shape="circle" onClick={handleSwitchModal} />
                     </Flex>
                 )}
                 rowKey="document_id"
                 loading={isLoading}
+                pagination={false}
             />
             <DocumentSubmit open={open} setOpen={handleSwitchModal} />
         </>
