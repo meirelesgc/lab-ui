@@ -54,7 +54,7 @@ const getColumns = (handleViewButtonClick, handleDeleteButtonClick) => [
         dataIndex: "name",
         key: "name",
         title: "Nome",
-        width: '35%',
+        width: '40%',
         ellipsis: true
     },
     {
@@ -62,11 +62,10 @@ const getColumns = (handleViewButtonClick, handleDeleteButtonClick) => [
         key: "created_at",
         title: "Adicionado em",
         render: (created_at) => formatDate(created_at),
+        ellipsis: true,
         width: '20%',
-        ellipsis: true
     },
     {
-        title: "Actions",
         key: "action",
         render: (text, record) => (
             <ActionButtons

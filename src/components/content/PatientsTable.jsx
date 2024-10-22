@@ -15,6 +15,12 @@ const ActionButtons = ({ record, handleDeleteButtonClick }) => (
 
 const getColumns = (handleDeleteButtonClick) => [
     {
+        dataIndex: 'status',
+        key: 'status',
+        width: '5%',
+        align: 'center'
+    },
+    {
         title: 'Identificador',
         dataIndex: 'patient_id',
         key: 'patient_id',
@@ -27,7 +33,6 @@ const getColumns = (handleDeleteButtonClick) => [
         key: 'name',
     },
     {
-        title: "Ações",
         key: "action",
         render: (text, record) => (
             <ActionButtons
@@ -71,7 +76,7 @@ const PatientsTable = () => {
             title={() => (
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography.Title strong level={5}>
-                        Lista de Pacientes
+                        Lista completa
                     </Typography.Title>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <Input

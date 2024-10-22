@@ -16,6 +16,12 @@ const ActionButtons = ({ record, handleDeleteButtonClick }) => (
 
 const getColumns = (handleDeleteButtonClick) => [
     {
+        dataIndex: 'status',
+        key: 'status',
+        width: '5%',
+        align: 'center'
+    },
+    {
         title: 'Identificador',
         dataIndex: 'parameter_id',
         key: 'parameter_id',
@@ -26,17 +32,16 @@ const getColumns = (handleDeleteButtonClick) => [
         title: 'Parâmetro',
         dataIndex: 'parameter',
         key: 'parameter',
-        width: '20%',
+        width: '40%',
     },
     {
         title: 'Sinônimos',
         dataIndex: 'synonyms',
         key: 'synonyms',
-        width: '60%',
         render: (synonyms) => (synonyms.length > 0 ? synonyms.join(', ') : 'Nenhum sinônimo'),
+        width: '20%',
     },
     {
-        title: "Actions",
         key: "action",
         render: (text, record) => (
             <ActionButtons
