@@ -92,8 +92,7 @@ const ParametersTable = () => {
                             allowClear
                             value={newParameter}
                             onChange={handleInputChange}
-                            onPressEnter={handleInputSubmit}
-                        />
+                            onPressEnter={handleInputSubmit} />
                         <Button icon={<PlusOutlined />} type="primary" onClick={handleInputSubmit}>
                             Enviar
                         </Button>

@@ -4,21 +4,19 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import CustomHeader from "./components/Header";
-import MainContent from "./components/MainContent";
-import SideContent from "./components/SideContent";
 import './App.css'
+import { Outlet } from "react-router-dom";
 
 const { Sider, Header, Content } = Layout;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('document_sider_key');
 
   return (
     <Layout>
       <Sider theme="light" trigger={null} collapsible collapsed={collapsed} className="sider">
 
-        <Sidebar setSelectedItem={setSelectedItem} />
+        <Sidebar />
         <Button
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -33,10 +31,7 @@ const App = () => {
 
         <Content className="content">
           <Flex gap='large'>
-            <MainContent
-              selectedItem={selectedItem} />
-            <SideContent
-              selectedItem={selectedItem} />
+            <Outlet />
           </Flex>
         </Content>
       </Layout>
