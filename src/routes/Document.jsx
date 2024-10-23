@@ -1,5 +1,7 @@
-const DocumentPage = () => {
-    return <>Pagina do documento</>
-}
 
+const DocumentPage = () => {
+    return <div>
+        Document
+    </div>
+}
 export default DocumentPage

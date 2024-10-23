@@ -22,7 +22,7 @@ const Sidebar = () => {
             onClick={handleMenuClick}
             items={[
                 { key: '/document', icon: <FilePdfFilled />, label: 'Arquivos' },
-                { key: '/parameter', icon: <EditOutlined />, label: 'Parâmetros' },
+                { key: '/param', icon: <EditOutlined />, label: 'Parâmetros' },
                 { key: '/patient', icon: <UserOutlined />, label: 'Pacientes' },
             ]} />
     </>;

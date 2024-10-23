@@ -1,15 +1,21 @@
-import { Button, Flex, Layout } from "antd";
-import { useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import React from "react";
+
+import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+
+import { Button, Layout } from "antd";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+
 import Sidebar from "./components/Sidebar";
 import CustomHeader from "./components/Header";
-import './App.css'
-import { Outlet } from "react-router-dom";
+import Banner from "./components/Banner"
 
-const { Sider, Header, Content } = Layout;
+import "./App.css";
+
+const { Sider, Header, Content, Footer } = Layout;
 
 const App = () => {
+  const location = useLocation()
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -24,16 +30,22 @@ const App = () => {
           className="triger-bnt" />
 
       </Sider>
+
       <Layout>
         <Header className="header">
           <CustomHeader />
         </Header>
 
         <Content className="content">
-          <Flex gap='large'>
-            <Outlet />
-          </Flex>
+          <Banner location={location} />
+          <Outlet />
         </Content>
+
+        <Footer className="footer">
+          Footer
+        </Footer>
+
+
       </Layout>
     </Layout>
   );

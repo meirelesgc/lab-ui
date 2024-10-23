@@ -1,5 +1,7 @@
-const DocumentPage = () => {
-    return <>Pagina dos pacientes</>
-}
 
-export default DocumentPage
+const PatientPage = () => {
+    return <div>
+        Patient
+    </div>
+}
+export default PatientPage

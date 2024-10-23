@@ -1,4 +1,7 @@
 import App from './App.jsx'
+import ParamPage from './routes/Param.jsx'
+import PatientPage from './routes/Patient.jsx'
+import DocumentPage from './routes/Document.jsx'
 
 import './index.css'
 
@@ -7,26 +10,22 @@ import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import Document from './routes/Document.jsx'
-import Patient from './routes/Patient.jsx'
-import Parameter from './routes/Parameter.jsx'
-
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [{
-      path: '/document',
-      element: <Document />
+      path: 'document',
+      element: <DocumentPage />
     }, {
-      path: '/patient',
-      element: <Patient />
+      path: 'patient',
+      element: <PatientPage />
     }, {
-      path: '/parameter',
-      element: <Parameter />
+      path: 'param',
+      element: <ParamPage />
     }]
-  }
-])
+  }]
+)
 
 const queryClient = new QueryClient();
 
