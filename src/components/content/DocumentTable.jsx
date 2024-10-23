@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Table, Button, Flex, Typography, Space, Tooltip } from "antd";
 import { UploadOutlined, ClockCircleOutlined, SyncOutlined, ExclamationCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import useDocuments from "../../../hooks/useDocuments";
-import useDeleteDocument from "../../../hooks/useDeleteDocument";
+import { useNavigate } from 'react-router-dom';
+import useDocuments from "../../hooks/useDocuments";
+import useDeleteDocument from "../../hooks/useDeleteDocument";
 import DocumentSubmit from './DocumentSubmit';
 
 const ActionButtons = ({ record, handleViewButtonClick, handleDeleteButtonClick }) => (
@@ -79,21 +80,22 @@ const getColumns = (handleViewButtonClick, handleDeleteButtonClick) => [
     }
 ];
 
-const DocumentPanel = ({ setDocument }) => {
+const DocumentPanel = () => {
     const [open, setOpen] = useState(false);
     const { data, isLoading } = useDocuments();
     const { mutate } = useDeleteDocument();
+    const navigate = useNavigate();
 
     const handleSwitchModal = () => {
         setOpen(!open);
     };
 
     const handleDeleteButtonClick = record => {
-        mutate(record["document_id"]);
+        mutate(record.document_id);
     };
 
     const handleViewButtonClick = record => {
-        setDocument(record['document_id']);
+        navigate('/document/' + record.document_id);
     };
 
     const columns = getColumns(handleViewButtonClick, handleDeleteButtonClick);

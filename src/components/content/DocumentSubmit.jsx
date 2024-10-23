@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
-import useCreateDocument from '../../../hooks/useCreateDocument';
+import useCreateDocument from '../../hooks/useCreateDocument';
 
 const { Dragger } = Upload;
 

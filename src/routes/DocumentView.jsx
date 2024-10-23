@@ -1,7 +1,10 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { Flex } from "antd";
 
-const DocumentView = ({ document: document_id }) => {
+const DocumentView = () => {
+    const { document_id } = useParams();
+
     return (
         <Flex style={{ height: '100vh' }} vertical>
             <iframe

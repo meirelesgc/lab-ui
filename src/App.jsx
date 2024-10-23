@@ -30,9 +30,7 @@ const App = () => {
         </Header>
 
         <Content className="content">
-          <Flex gap='large'>
-            <Outlet />
-          </Flex>
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
