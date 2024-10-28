@@ -36,38 +36,52 @@ const ParamDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
                     Cancelar
                 </Button>
             </Flex>} >
-            <Form form={form} name="param_form" autoComplete="off">
-                <Typography.Title level={4}>Parâmetro</Typography.Title>
 
+            <Form form={form} name="param_form" autoComplete="off">
+
+                <Typography.Title level={4}>
+                    Parâmetro
+                </Typography.Title>
                 <Form.Item
                     name="parameter"
                     rules={[{ required: true, message: "Por favor, insira um parâmetro." }]}>
                     <Input placeholder="Digite o parâmetro" />
                 </Form.Item>
 
-                <Typography.Title level={4}>Sinônimos</Typography.Title>
-
+                <Typography.Title level={4}>
+                    Sinônimos
+                </Typography.Title>
                 <Form.List name="synonyms">
                     {(fields, { add, remove }) => (
                         <Flex wrap gap="small">
                             {fields.map((field) => (
+
                                 <Space.Compact key={field.name}>
                                     <Form.Item
                                         name={[field.name]}
-                                        rules={[{ required: true, message: "Sinônimo obrigatório." }]}
-                                    >
-                                        <Input placeholder="Sinônimo" />
+                                        rules={[{ required: true, message: "Sinônimo obrigatório." }]}>
+                                        <Input
+                                            placeholder="Sinônimo"
+                                            onPressEnter={(e) => {
+                                                e.preventDefault();
+                                                const input = e.target.value;
+                                                const synonyms = input.split(',').map((syn) => syn.trim());
+                                                synonyms.forEach((synonym) => {
+                                                    if (synonym) add(synonym);
+                                                });
+                                                e.target.value = '';
+                                            }} />
                                     </Form.Item>
                                     <Button onClick={() => remove(field.name)} icon={<CloseOutlined />} />
-                                </Space.Compact>
-                            ))}
+                                </Space.Compact>))}
+
                             <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                                 Adicionar Sinônimo
                             </Button>
-                        </Flex>
-                    )}
+                        </Flex>)}
                 </Form.List>
             </Form>
+
         </Drawer>
     );
 };

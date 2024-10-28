@@ -18,7 +18,6 @@ export const createDocument = async (newDocument) => {
             ...newDocument.documentMetadata
         }
     });
-
     return response.data;
 };
 

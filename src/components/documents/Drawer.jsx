@@ -11,19 +11,20 @@ const DocDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
     const { data, isLoading } = usePatients();
 
     const [fileList, setFileList] = useState([]);
-    const [metaData, setMetaData] = useState({ patient_id: null, document_date: null });
+    const [documentMetadata, setDocumentMetadata] = useState({
+        'document-id': null, 'patient-id': null, 'document-date': null
+    })
 
-    const handleChange = (info) => {
+    const handleFileChange = (info) => {
         setFileList(info.fileList);
     };
-
+    const handlePatientChange = (info) => {
+        console.log(info);
+    };
     const handleDateChange = (date, dateString) => {
-        setMetaData((prev) => ({ ...prev, document_date: dateString }));
+        console.log(date, dateString);
     };
 
-    const handlePatientChange = (value) => {
-        setMetaData((prev) => ({ ...prev, patient_id: value }));
-    };
 
     const handleSubmit = () => {
         if (!fileList.length) {
@@ -36,17 +37,14 @@ const DocDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
             formData.append('files', file.originFileObj);
         });
 
-        mutate({ document: formData, documentMetadata: metaData }, {
+        mutate({ document: formData, documentMetadata: documentMetadata }, {
             onSuccess: () => {
                 message.success("Documentos enviados com sucesso!");
-                setFileList([]);
-                setMetaData({ patient_id: null, document_date: null });
                 switchVisibleDrawer();
             },
             onError: () => {
                 message.error("Erro ao enviar documentos. Tente novamente.");
             },
-
         });
     };
 
@@ -57,8 +55,7 @@ const DocDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
                 <Flex gap='large'>
                     <Button size="large" onClick={handleSubmit} type="primary">Enviar</Button>
                     <Button size="large" onClick={switchVisibleDrawer}>Cancelar</Button>
-                </Flex>
-            }
+                </Flex>}
             open={visibleDrawer}
             onClose={switchVisibleDrawer} >
 
@@ -82,7 +79,7 @@ const DocDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
                 <Dragger
                     customRequest={({ file, onSuccess }) => { onSuccess(null, file) }}
                     fileList={fileList}
-                    onChange={handleChange}
+                    onChange={handleFileChange}
                     multiple
                     accept={'.pdf'}>
                     <p className="logo" style={{ fontSize: 40 }}><InboxOutlined /></p>
