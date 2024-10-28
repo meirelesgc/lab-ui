@@ -2,11 +2,11 @@ import { Flex } from "antd";
 import { useState } from "react";
 
 import Banner from "../Banner"
-import DocTable from "./Table";
 import DocDrawer from './Drawer'
 
 
 import { UploadOutlined, AuditOutlined } from '@ant-design/icons'
+import { Outlet } from "react-router-dom";
 
 const MainContent = () => {
     const [visibleDrawer, setVisibleDrawer] = useState(false);
@@ -43,7 +43,7 @@ const MainContent = () => {
                 title='Gerenciamento de Documentos'
                 description='Aqui você pode ver a lista de documentos cadastrados e acompanhar o estado atual do processamento.'
                 buttons={[sendDrawer(), handleExtractData()]} />
-            <DocTable />
+            <Outlet />
         </Flex>
     </div>
 }

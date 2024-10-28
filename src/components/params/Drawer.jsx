@@ -26,7 +26,6 @@ const ParamDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
     return (
         <Drawer
             title="Adicionando novo parâmetro"
-            width={720}
             open={visibleDrawer}
             onClose={switchVisibleDrawer}
             footer={<Flex gap="large">

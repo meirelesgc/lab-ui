@@ -7,6 +7,7 @@ import useDeleteDocument from "../../hooks/useDeleteDocument";
 import tableConfig from './TableConfig';
 
 const DocTable = () => {
+    const navigate = useNavigate();
     const { data, isLoading } = useDocuments();
     const { mutate } = useDeleteDocument();
 
@@ -15,7 +16,7 @@ const DocTable = () => {
     };
 
     const handleInspectButton = record => {
-        useNavigate('/document/' + record.document_id);
+        navigate('/document/' + record.document_id);
     };
 
     return (
