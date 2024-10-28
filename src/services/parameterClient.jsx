@@ -12,7 +12,7 @@ export const fetchParameters = async () => {
 };
 
 export const createParameter = async (newParameter) => {
-    const response = await apiClient.post('/parameter?parameter=' + newParameter);
+    const response = await apiClient.post('/parameter', newParameter);
     return response.data;
 };
 

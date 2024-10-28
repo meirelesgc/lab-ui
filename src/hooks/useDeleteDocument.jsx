@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { deleteDocument } from '../services/documentClient';
 
-const useCreateDocument = () => {
+const useDeleteDocument = () => {
     const queryClient = useQueryClient()
     return useMutation(deleteDocument, {
         onSuccess: () => {
@@ -13,4 +13,4 @@ const useCreateDocument = () => {
     });
 };
 
-export default useCreateDocument;
+export default useDeleteDocument;

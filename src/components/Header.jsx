@@ -10,7 +10,8 @@ const CustomHeader = () => {
         </Typography.Title>
 
         <Flex align="center" gap="3rem">
-            <Search placeholder="Buscar..." allowClear />
+            {/* Implementar busca dentro de documentos, pacientes e parametros */}
+            <Search placeholder="<EM OBRAS>" allowClear />
 
             <Flex align="center" gap="10px">
                 <MessageOutlined className="header-icon" />

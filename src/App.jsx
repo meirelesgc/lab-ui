@@ -1,21 +1,19 @@
 import React from "react";
 
 import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import { Button, Layout } from "antd";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 import Sidebar from "./components/Sidebar";
 import CustomHeader from "./components/Header";
-import Banner from "./components/Banner"
 
 import "./App.css";
 
 const { Sider, Header, Content, Footer } = Layout;
 
 const App = () => {
-  const location = useLocation()
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -37,12 +35,11 @@ const App = () => {
         </Header>
 
         <Content className="content">
-          <Banner location={location} />
           <Outlet />
         </Content>
 
         <Footer className="footer">
-          Footer
+          {'<EM OBRAS>'}
         </Footer>
 
 
