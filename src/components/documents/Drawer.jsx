@@ -12,19 +12,24 @@ const DocDrawer = ({ visibleDrawer, switchVisibleDrawer }) => {
 
     const [fileList, setFileList] = useState([]);
     const [documentMetadata, setDocumentMetadata] = useState({
-        'document-id': null, 'patient-id': null, 'document-date': null
+        'patient-id': null, 'document-date': null
     })
 
     const handleFileChange = (info) => {
         setFileList(info.fileList);
     };
     const handlePatientChange = (info) => {
-        console.log(info);
+        setDocumentMetadata(prevMetadata => ({
+            ...prevMetadata,
+            'patient-id': info
+        }));
     };
     const handleDateChange = (date, dateString) => {
-        console.log(date, dateString);
+        setDocumentMetadata(prevMetadata => ({
+            ...prevMetadata,
+            'document-date': dateString
+        }));
     };
-
 
     const handleSubmit = () => {
         if (!fileList.length) {
