@@ -18,6 +18,13 @@ const renderJsonInCards = (json, setJson, path = []) => {
             setJson(updatedJson);
         };
 
+        const cardTitleStyle = {
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            width: '100%', // Ajuste a largura conforme necessário
+        };
+
         if (typeof value === 'object' && value !== null) {
             return (
                 <Collapse key={key} style={{ marginBottom: '8px' }}>
@@ -29,7 +36,9 @@ const renderJsonInCards = (json, setJson, path = []) => {
         }
         return (
             <Card key={key} style={{ marginBottom: '8px' }}>
-                <strong>{key}:</strong>
+                <div style={cardTitleStyle}>
+                    <strong>{key}:</strong>
+                </div>
                 <Input
                     defaultValue={value !== null ? value.toString() : ''}
                     onChange={(e) => handleChange(e.target.value)}
@@ -49,7 +58,7 @@ const paginateJson = (json, entriesPerPage, page) => {
 
 const DocumentData = ({ id: document_id }) => {
     const { data, isLoading } = useOpenAiJson(document_id);
-    const entriesPerPage = 10;
+    const entriesPerPage = 4; // Altere aqui para 4
     const [page, setPage] = useState(1);
     const [jsonData, setJsonData] = useState(data?.document_json || {});
 
@@ -78,7 +87,7 @@ const DocumentData = ({ id: document_id }) => {
                 </Button>
             </div>
             <Button style={{ marginTop: '16px' }} onClick={() => console.log(jsonData)}>
-                Enviar
+                Atualizar
             </Button>
         </Card>
     );

@@ -16,7 +16,7 @@ export const createOpenAiJson = async (document_id) => {
     return response.data;
 };
 
-// export const deleteDocument = async (document_id) => {
-//     const response = await apiClient.delete('/file/' + document_id);
-//     return response.data;
-// };
+export const updateOpenAiJson = async (newJsonDocument) => {
+    const response = await apiClient.put('/open-ai/document', newJsonDocument);
+    return response.data;
+};
