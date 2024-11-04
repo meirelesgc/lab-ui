@@ -12,7 +12,7 @@ const SideContent = ({ id: document_id }) => {
 
     return (
         <Flex vertical gap='large'>
-            <PatientInfo id={document_id} />
+            {/* <PatientInfo id={document_id} /> */}
             <Button onClick={handleButtonClick}>Recarregar os dados</Button>
             <DocumentData id={document_id} />
         </Flex>

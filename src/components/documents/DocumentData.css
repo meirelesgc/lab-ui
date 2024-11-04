@@ -1,0 +1,25 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    /* Mantém os cards em uma única coluna */
+    gap: 16px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    width: 300px;
+    /* Largura do card */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.card p {
+    margin: 0;
+    font-size: 14px;
+}
