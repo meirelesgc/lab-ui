@@ -12,10 +12,9 @@ export const fetchDocuments = async () => {
 };
 
 export const createDocument = async (newDocument) => {
-    const response = await apiClient.post('/file', newDocument.document, {
+    const response = await apiClient.post('/file', newDocument, {
         headers: {
-            'Content-Type': 'multipart/form-data',
-            ...newDocument.documentMetadata
+            'Content-Type': 'multipart/form-data'
         }
     });
     return response.data;
