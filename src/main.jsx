@@ -10,9 +10,6 @@ import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import DocTable from './components/documents/Table.jsx'
-import InspectDocument from './components/documents/InspectDocument.jsx'
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -20,13 +17,6 @@ const router = createBrowserRouter([
     children: [{
       path: 'document',
       element: <DocumentPage />,
-      children: [{
-        path: '',
-        element: <DocTable />
-      }, {
-        path: ':id',
-        element: <InspectDocument />
-      }]
     }, {
       path: 'patient',
       element: <PatientPage />

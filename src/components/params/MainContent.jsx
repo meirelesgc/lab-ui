@@ -3,7 +3,6 @@ import { Flex } from "antd";
 import Banner from "../Banner"
 import ParamTable from './Table'
 import { AppstoreAddOutlined } from '@ant-design/icons'
-import ParamDrawer from "./Drawer";
 
 const MainContent = () => {
     const [visibleDrawer, setVisibleDrawer] = useState(false);
@@ -23,9 +22,6 @@ const MainContent = () => {
 
     return <div style={{ flex: 1 }}>
         <Flex vertical gap='2.3rem'>
-            <ParamDrawer
-                visibleDrawer={visibleDrawer}
-                switchVisibleDrawer={switchVisibleDrawer} />
             <Banner
                 title='Gerenciamento de Parâmetros'
                 description='Aqui você pode ver os dados cadastrados para extração, bem como editar seus sinônimos.'
