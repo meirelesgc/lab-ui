@@ -8,15 +8,13 @@ const CustomForm = ({ form }) => {
         <Form
             layout='vertical'
             form={form}
-            initialValues={{ parameter: '', synonyms: [''] }}
-        >
+            initialValues={{ parameter: '', synonyms: [''] }} >
             <Flex vertical gap={'1.3rem'}>
-                <Card title="Parameter">
+                <Card title="Parâmetro">
                     <Form.Item
                         name="parameter"
-                        rules={[{ required: true, message: 'Please input the parameter!' }]}
-                    >
-                        <Input />
+                        rules={[{ required: true, message: 'Por favor, insira o parâmetro!' }]} >
+                        <Input placeholder="Digite o parâmetro" />
                     </Form.Item>
                 </Card>
 
@@ -25,16 +23,16 @@ const CustomForm = ({ form }) => {
                         <Flex vertical gap='middle'>
                             {fields.map(({ key, name, ...restField }) => (
                                 <Card
-                                    title={'Synonym ' + (key + 1)}
+                                    title={'Sinônimo ' + (key + 1)}
                                     key={key}
                                     extra={<Button icon={<DeleteOutlined />} onClick={() => remove(name)} />} >
                                     <Form.Item {...restField} name={[name]} >
-                                        <Input placeholder="Synonym" />
+                                        <Input placeholder="Digite o sinônimo" />
                                     </Form.Item>
                                 </Card>
                             ))}
                             <Button type="dashed" onClick={() => add()} block>
-                                + Add Synonym
+                                + Adicionar Sinônimo
                             </Button>
                         </Flex>
                     )}
