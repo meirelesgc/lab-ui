@@ -16,7 +16,6 @@ const CustomDrawer = ({ title, switchDrawer, open }) => {
             onSuccess: (data) => {
                 console.log('Arquivo enviado com sucesso:', data);
                 onSuccess(data);
-                // Fechar o drawer após sucesso
                 switchDrawer();
             },
             onError: (error) => {
