@@ -6,11 +6,11 @@ import useParameters from '../../hooks/useParameters'
 import useDeleteParameter from '../../hooks/useDeleteParameter'
 
 const ParamTable = () => {
-    const { mutate: deleteParameter } = useDeleteParameter();
+    const { mutate } = useDeleteParameter();
     const { data, isLoading } = useParameters();
 
     const handleDeleteButtonClick = (record) => {
-        deleteParameter(record.parameter_id);
+        mutate(record.parameter_id);
     };
 
     const columns = tableConfig(handleDeleteButtonClick);

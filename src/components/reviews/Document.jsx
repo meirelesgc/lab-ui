@@ -7,7 +7,7 @@ const Document = () => {
     return <iframe
         src={'http://localhost:8000/document/file/' + document_id}
         width="100%"
-        height="800px"
+        height="100%"
         title="PDF" />;
 };
 
