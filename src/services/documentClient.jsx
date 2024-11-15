@@ -2,7 +2,7 @@ import apiClient from './apiClient';
 
 
 export const fetchDocuments = async () => {
-    const response = await apiClient.get('/file')
+    const response = await apiClient.get('/document')
         .catch(function (error) {
             if (error.response.status === 404) {
                 return [];
@@ -12,7 +12,7 @@ export const fetchDocuments = async () => {
 };
 
 export const createDocument = async (newDocument) => {
-    const response = await apiClient.post('/file', newDocument, {
+    const response = await apiClient.post('/document', newDocument, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -21,6 +21,16 @@ export const createDocument = async (newDocument) => {
 };
 
 export const deleteDocument = async (document_id) => {
-    const response = await apiClient.delete('/file/' + document_id);
+    const response = await apiClient.delete('/document/' + document_id);
     return response.data;
 };
+
+export const fetchDocument = async (document_id) => {
+    const response = await apiClient.get('/document/' + document_id)
+        .catch(function (error) {
+            if (error.response.status === 404) {
+                return [];
+            }
+        });
+    return response.data;
+}

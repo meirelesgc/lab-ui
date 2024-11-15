@@ -2,6 +2,7 @@ import App from './App.jsx'
 import ParamPage from './routes/Param.jsx'
 import PatientPage from './routes/Patient.jsx'
 import DocumentPage from './routes/Document.jsx'
+import Review from './routes/Review.jsx'
 
 import './index.css'
 
@@ -14,18 +15,26 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [{
-      path: 'document',
-      element: <DocumentPage />,
-    }, {
-      path: 'patient',
-      element: <PatientPage />
-    }, {
-      path: 'param',
-      element: <ParamPage />
-    }]
-  }]
-)
+    children: [
+      {
+        path: 'document',
+        element: <DocumentPage />,
+      },
+      {
+        path: 'document/:document_id',
+        element: <Review />
+      },
+      {
+        path: 'patient',
+        element: <PatientPage />
+      },
+      {
+        path: 'param',
+        element: <ParamPage />
+      }
+    ]
+  }
+])
 
 const queryClient = new QueryClient();
 
