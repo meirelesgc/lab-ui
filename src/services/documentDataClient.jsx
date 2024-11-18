@@ -11,6 +11,7 @@ export const createDocumentData = async (document_id) => {
 };
 
 export const updateDocumentData = async (evaluatedData) => {
+    console.log(evaluatedData)
     const response = await apiClient.put('/document/data', evaluatedData)
         .catch(function (error) {
             console.log(error)

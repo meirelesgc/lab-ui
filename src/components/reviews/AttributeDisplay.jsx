@@ -1,4 +1,4 @@
-import { Flex, Typography, List, Button, Select } from "antd";
+import { Flex, Typography, Tooltip, List, Button, Select } from "antd";
 import { useState, useEffect } from "react";
 
 const AttributeDisplay = ({ documentData, evaluatedDocumentData, onValuesChange }) => {
@@ -15,32 +15,37 @@ const AttributeDisplay = ({ documentData, evaluatedDocumentData, onValuesChange 
         setSelectValue(value);
         onValuesChange(value);
     };
-
+    console.log(documentData)
     return (
         <Flex vertical gap="small">
             <Typography.Title level={2} strong>{documentData.attribute}</Typography.Title>
             <Flex vertical justify="space-between" gap="0.5rem" style={{ display: "flex", width: "100%" }}>
                 <Typography.Text type="secondary" strong>Valores encontrados</Typography.Text>
-                <List
-                    grid={{ gutter: 16 }}
-                    dataSource={documentData.values}
-                    renderItem={(item, idx) => (
-                        <List.Item key={idx}>
-                            <Button size="large" onClick={() => handleSelectChange([item])}>
-                                {item}
-                            </Button>
-                        </List.Item>)} />
+                {documentData.values.length > 0 ? (
+                    <List
+                        grid={{ gutter: 16 }}
+                        dataSource={documentData.values}
+                        split
+                        renderItem={(item, idx) => (
+                            <List.Item key={idx}>
+                                <Tooltip title={item}>
+                                    <Button size="large" onClick={() => handleSelectChange([item])} style={{ overflow: "hidden", textOverflow: "ellipsis", wordBreak: "break-word", display: "block", maxWidth: "370px" }} >
+                                        {item}
+                                    </Button>
+                                </Tooltip>
+                            </List.Item>
+                        )} />) : (<Typography.Text type="secondary" strong>Não encontramos esse dado...</Typography.Text>)}
 
                 <Typography.Text type="secondary" strong>Valor revisado</Typography.Text>
                 <Select
                     size="large"
                     mode="tags"
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", maxWidth: "370px" }}
                     placeholder="Selecione um valor"
                     value={selectValue}
                     onChange={handleSelectChange} >
                     {combinedValues.map((value, idx) => (
-                        <Select.Option key={idx} value={value}>
+                        <Select.Option key={idx} value={value} >
                             {value}
                         </Select.Option>))}
                 </Select>

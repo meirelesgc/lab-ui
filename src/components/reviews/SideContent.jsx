@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 
 const SideContent = () => {
     const { document_id } = useParams();
-    const { mutate: createData } = useCreateDocumentData();
+    const { mutate: createData, isLoading: isCreating } = useCreateDocumentData();
     const { mutate: updateData } = useUpdateDocumentData();
     const { data, isLoading } = useDocument(document_id);
 
@@ -29,7 +29,7 @@ const SideContent = () => {
         }
     }, [data]);
 
-    if (isLoading) {
+    if (isLoading || isCreating) {
         return <Loading />;
     }
 
@@ -65,7 +65,7 @@ const SideContent = () => {
                 document_id: document_id, data_id: data.document_data.data_id, document_data: submitData, rating: 0, patient_id: patient, document_date: formattedDate,
             };
             updateData(dataToSubmit);
-            console.log(dataToSubmit);
+            message.success('Dados atualizados')
         }
     };
 

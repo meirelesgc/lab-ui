@@ -6,7 +6,7 @@ import React from "react";
 const CustomHeader = () => {
     return <Flex align="center" justify="space-between">
         <Typography.Title level={3} type="secondary">
-            {"<NOME DA PLATAFORMA>"}
+            IaDocs, Apoio ao DAM
         </Typography.Title>
 
         <Flex align="center" gap="3rem">

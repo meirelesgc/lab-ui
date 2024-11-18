@@ -8,10 +8,9 @@
   padding: 20px;
 }
 
-
 .footer {
   padding: 20px;
-  background: #4f6f52;
+  background: #1b6093;
   color: #fff;
   text-align: center;
   position: relative;
@@ -30,7 +29,7 @@
 }
 
 .footer .footer-links a {
-  color: #d2e3c8;
+  color: #52b2e8;
   text-decoration: none;
   font-weight: 500;
 }
@@ -53,7 +52,7 @@
 }
 
 .footer .footer-icons .icon {
-  color: #d2e3c8;
+  color: #52b2e8;
   font-size: 1.5rem;
   transition: color 0.3s;
 }
@@ -80,7 +79,7 @@
 }
 
 .logo {
-  color: #4f6f52;
+  color: #1b6093;
   margin: 30px 0;
   font-size: 1.5rem;
 }
@@ -93,47 +92,47 @@
 }
 
 .ant-menu-item-selected {
-  background-color: #4f6f52 !important;
+  background-color: #1b6093 !important;
   color: #fff !important;
 }
 
 .header-icon {
-  background: #d2e3c8;
+  background: #52b2e8;
   padding: 8px;
   border-radius: 4px;
   font-size: 15px;
-  color: #4f6f52;
+  color: #fff;
   cursor: pointer;
 }
 
 .ant-btn:hover {
-  color: #4f6f52 !important;
-  border-color: #4f6f52 !important;
+  color: #1b6093 !important;
+  border-color: #1b6093 !important;
 }
 
 .ant-btn-primary {
-  background-color: #4f6f52;
+  background-color: #1b6093;
 }
 
 .ant-btn-primary:hover {
-  background-color: #173a1a !important;
+  background-color: #174f74 !important;
   color: #fff;
 }
 
 .primary--color {
-  color: #4f6f52 !important;
+  color: #1b6093 !important;
 }
 
 .primary--ligth--color {
-  color: #739072 !important;
+  color: #52b2e8 !important;
 }
 
 .secondary--color {
-  color: #86a789 !important;
+  color: #1b6093 !important;
 }
 
 .ligth--color {
-  color: #d2e3c8 !important;
+  color: #52b2e8 !important;
 }
 
 .gray--color {
@@ -141,7 +140,7 @@
 }
 
 .card {
-  background-image: linear-gradient(to bottom, #4c7f79, #87e8de);
+  background-image: linear-gradient(to bottom, #1b6093, #52b2e8);
 }
 
 .iframe {
