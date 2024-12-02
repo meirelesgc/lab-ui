@@ -5,7 +5,6 @@ import tableConfig from "./TableConfig";
 import usePatient from '../../hooks/usePatients';
 import useDeletePatient from '../../hooks/useDeletePatient';
 
-
 const PatientTable = () => {
     const { mutate } = useDeletePatient();
     const { data, isLoading } = usePatient();

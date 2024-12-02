@@ -6,7 +6,7 @@ import React from "react";
 const CustomHeader = () => {
     return <Flex align="center" justify="space-between">
         <Typography.Title level={3} type="secondary">
-            IaDocs, Apoio ao DAM
+            IaDocs, Apoio ao DAN
         </Typography.Title>
 
         <Flex align="center" gap="3rem">
@@ -15,7 +15,6 @@ const CustomHeader = () => {
 
             <Flex align="center" gap="10px">
                 <MessageOutlined className="header-icon" />
-                <NotificationOutlined className="header-icon" />
                 <Avatar icon={<UserOutlined />} className="header-icon" />
             </Flex>
         </Flex>

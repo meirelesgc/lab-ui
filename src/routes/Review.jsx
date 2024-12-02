@@ -1,13 +1,20 @@
-import React from 'react';
-import { Flex } from 'antd';
-import MainContent from '../components/reviews/MainContent';
-import SideContent from '../components/reviews/SideContent';
+import { Splitter } from 'antd';
+import { useParams } from 'react-router-dom';
+
+
+import Document from '../components/review/Document';
+import SideContent from '../components/review/SideContent';
 
 const Review = () => {
-    return <Flex justify="space-between" gap='large' style={{ height: '100vh' }}>
-        <MainContent />
-        <SideContent />
-    </Flex>;
+    const { document_id } = useParams();
+    return <Splitter>
+        <Splitter.Panel defaultSize="40%" min="20%" max="70%" >
+            <Document document_id={document_id} />
+        </Splitter.Panel>
+        <Splitter.Panel style={{ padding: '20px' }}>
+            <SideContent document_id={document_id} />
+        </Splitter.Panel>
+    </Splitter>
 };
 
 export default Review;
