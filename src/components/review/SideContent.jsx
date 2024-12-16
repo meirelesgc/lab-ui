@@ -67,10 +67,12 @@ const SideContent = ({ document_id }) => {
     }
 
     const validateData = (data) => {
-        if (!Object.values(data).every((values) => values.length === 1)) {
+        console.log(data)
+        if (!Object.values(data).every((values) => values.length <= 1)) {
             message.error('Os dados devem conter exatamente um único valor.');
             return false;
         }
+
         return true;
     };
 
@@ -89,7 +91,6 @@ const SideContent = ({ document_id }) => {
                 document_id: document_id,
                 data_id: data.document_data.data_id, document_data: evalData, rating: 0, patient_id: docPatient, document_date: formattedDate,
             };
-            console.log(dataToSubmit)
             updateData(dataToSubmit);
             message.success('Dados atualizados')
         }

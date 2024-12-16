@@ -1,9 +1,18 @@
-import { Card, Flex, Typography, DatePicker, Select } from "antd"
-import usePatients from '../../hooks/usePatients'
+import { Card, Flex, Typography, DatePicker, Select } from "antd";
+import usePatients from '../../hooks/usePatients';
 import dayjs from 'dayjs';
+import { useEffect, useMemo } from 'react';
 
 const CustomCard = ({ rawData, setDocPatient, setDocDate }) => {
     const { data, isLoading } = usePatients();
+
+    const defaultSelectedPatients = rawData?.patients?.map(patient => patient.patient_id) || [];
+    const documentDate = useMemo(() => dayjs(document.document_date), [document.document_date]);
+
+    useEffect(() => {
+        setDocDate(documentDate);
+        setDocPatient(defaultSelectedPatients);
+    }, [setDocDate, documentDate]);
 
     const handlePatientChange = (patients) => {
         setDocPatient(patients);
@@ -33,24 +42,23 @@ const CustomCard = ({ rawData, setDocPatient, setDocDate }) => {
         </Select.OptGroup>;
     };
 
-    const defaultSelectedPatients = rawData?.patients?.map(patient => patient.patient_id) || [];
-    const documentDate = dayjs(document.document_date);
+    return (
+        <Card style={{ padding: "20px" }}>
+            <Flex vertical gap="small">
+                <Typography.Title level={2} strong>Metadados</Typography.Title>
+                <Flex vertical justify="space-between" gap="0.5rem" style={{ display: "flex", width: "100%" }}>
+                    <Typography.Text type="secondary" strong>Data de admissão</Typography.Text>
+                    <DatePicker onChange={handleDateChange} format="DD-MM-YYYY" defaultValue={documentDate} />
 
-    return <Card style={{ padding: "20px" }}>
-        <Flex vertical gap="small">
-            <Typography.Title level={2} strong>Metadados</Typography.Title>
-            <Flex vertical justify="space-between" gap="0.5rem" style={{ display: "flex", width: "100%" }} >
-                <Typography.Text type="secondary" strong>Data de admissão</Typography.Text>
-                <DatePicker onChange={handleDateChange} format="DD-MM-YYYY" defaultValue={documentDate} />
-
-                <Typography.Text type="secondary" strong>Paciente</Typography.Text>
-                <Select mode="tags" loading={isLoading} placeholder="Selecione um paciente" onChange={handlePatientChange} defaultValue={defaultSelectedPatients}>
-                    {renderTrackedPatients()}
-                    {renderPatients()}
-                </Select>
+                    <Typography.Text type="secondary" strong>Paciente</Typography.Text>
+                    <Select mode="tags" loading={isLoading} placeholder="Selecione um paciente" onChange={handlePatientChange} defaultValue={defaultSelectedPatients} >
+                        {renderTrackedPatients()}
+                        {renderPatients()}
+                    </Select>
+                </Flex>
             </Flex>
-        </Flex>
-    </Card>
-}
+        </Card>
+    );
+};
 
-export default CustomCard
+export default CustomCard;
