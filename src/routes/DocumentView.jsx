@@ -2,10 +2,10 @@ import { Splitter } from 'antd';
 import { useParams } from 'react-router-dom';
 
 
-import Document from '../components/review/Document';
-import SideContent from '../components/review/SideContent';
+import Document from '../components/documentView/Document';
+import SideContent from '../components/documentView/SideContent';
 
-const Review = () => {
+const DocumentView = () => {
     const { document_id } = useParams();
     return <Splitter>
         <Splitter.Panel defaultSize="40%" min="20%" max="70%" >
@@ -17,4 +17,4 @@ const Review = () => {
     </Splitter>
 };
 
-export default Review;
+export default DocumentView;

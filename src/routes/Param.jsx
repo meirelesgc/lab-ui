@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import MainContent from '../components/params/MainContent'
+import MainContent from '../components/param/MainContent'
 
 const ParamPage = () => {
     return <Flex gap='large'>

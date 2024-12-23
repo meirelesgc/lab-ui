@@ -1,5 +1,5 @@
 import { Flex } from 'antd'
-import MainContent from '../components/documents/MainContent'
+import MainContent from '../components/document/MainContent'
 
 const DocumentPage = () => {
     return <Flex gap='large'>

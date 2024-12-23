@@ -10,28 +10,36 @@ import Sidebar from "./components/Sidebar";
 import CustomHeader from "./components/Header";
 
 import "./App.css";
+import CustomDrawer from "./components/Drawer";
 
 const { Sider, Header, Content, Footer } = Layout;
 
 const App = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [siderCollapsed, setSiderCollapsed] = useState(false);
+  const [drawerCollapsed, setDrawerCollapsed] = useState(false);
+
+  const switchDrawer = () => {
+    setDrawerCollapsed(!drawerCollapsed)
+  }
 
   return (
     <Layout>
-      <Sider theme="light" trigger={null} collapsible collapsed={collapsed} className="sider">
+      <Sider theme="light" trigger={null} collapsible collapsed={siderCollapsed} className="sider">
 
+        <CustomDrawer collapsed={drawerCollapsed} />
         <Sidebar />
+
         <Button
           type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
+          icon={siderCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setSiderCollapsed(!siderCollapsed)}
           className="triger-bnt" />
 
       </Sider>
 
       <Layout>
         <Header className="header">
-          <CustomHeader />
+          <CustomHeader switchDrawer={switchDrawer} />
         </Header>
 
         <Content className="content">

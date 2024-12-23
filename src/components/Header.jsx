@@ -3,7 +3,7 @@ import { Avatar, Flex, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import React from "react";
 
-const CustomHeader = () => {
+const CustomHeader = ({ switchDrawer }) => {
     return <Flex align="center" justify="space-between">
         <Typography.Title level={3} type="secondary">
             IaDocs, Apoio ao DAN
@@ -15,7 +15,7 @@ const CustomHeader = () => {
 
             <Flex align="center" gap="10px">
                 <MessageOutlined className="header-icon" />
-                <Avatar icon={<UserOutlined />} className="header-icon" />
+                <Avatar icon={<UserOutlined />} className="header-icon" onClick={switchDrawer} />
             </Flex>
         </Flex>
     </Flex>;
