@@ -11,8 +11,8 @@ export const fetchDocuments = async () => {
     return response.data;
 };
 
-export const createDocument = async (newDocument) => {
-    const response = await apiClient.post('/document', newDocument, {
+export const createDocument = async (newDocument, flag) => {
+    const response = await apiClient.post(`/document/${flag}`, newDocument, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
